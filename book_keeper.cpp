@@ -18,21 +18,21 @@ public:
         readers_[user_id] = page_num;
     }
 
-    void CommandCheer(int user_id, std::ostream& out) {
+    double CommandCheer(int user_id, std::ostream& out) {
         if (readers_.count(user_id) == 0) {
-            out << 0;
+            return 0;
         }
         else {
             if (readers_.size() == 1) {
-                out << 1;
+                return 1;
             }
             else {
                 int num_pages = readers_.at(user_id);
                 double less_then_user_num =  readers_to_pages.at(1) - readers_to_pages.at(num_pages);
-                out << std::setprecision(6) << (less_then_user_num/( readers_.size()-1));
+
+                return (less_then_user_num / (readers_.size() - 1));
             }
         }
-        out << std::endl;
     }
 
 private:
@@ -50,7 +50,7 @@ int main()
     int page_num;
     std::string s;
 
-    /*input >> num;
+    input >> num;
     for (int i = 0; i < num; i++) {
         input >> s;
         input >> id_size;
@@ -59,20 +59,8 @@ int main()
             book_checker.CommandRead(id_size, page_num);
         }
         else {
-            book_checker.CommandCheer(id_size, std::cout);
-        }
-    }*/
-
-    std::cin >> num;
-    for (int i = 0; i < num; i++) {
-        std::cin >> s;
-        std::cin >> id_size;
-        if (s == "READ") {
-            std::cin >> page_num;
-            book_checker.CommandRead(id_size, page_num);
-        }
-        else {
-            book_checker.CommandCheer(id_size, std::cout);
+            double res = book_checker.CommandCheer(id_size, std::cout);
+            std::cout << std::setprecision(6) << res << std::endl;
         }
     }
 }
